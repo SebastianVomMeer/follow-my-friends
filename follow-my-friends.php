@@ -1,39 +1,28 @@
 <?php
-class AnchorStartingTag {
 
-	private $tag;
+class FollowMyFriends {
 
-	public function __construct($tag) {
-		$this->tag = $tag;
+	public $friendlyUrls = array(
+		'http://sgaul.de'
+	);
+
+	private $finder;
+
+	public function __construct() {
+		$this->finder = new AnchorTagFinder();
 	}
 
-	public function getHref() {
-		if (preg_match('/href="([^"]*)"/', $this->tag, $result)) {
-			return $result[1];
+	public function removeNofollowFromFriendlyLinks($text) {
+		while ($tagString = $this->finder->findFirstTagInText($text)) {
+			$tag = new AnchorStartingTag($tagString);
+			foreach ($this->friendlyUrls as $url) {
+				if (strpos($tag->getHref(), $url) === 0) {
+					$tag->setRef('external');
+					$text = str_replace($tagString, $tag->__toString, $text);
+				}
+			}
 		}
-		return null;
-	}
-
-	public function getRel() {
-		if (preg_match('/rel="([^"]*)"/', $this->tag, $result)) {
-			return $result[1];
-		}
-		return null;
-	}
-
-	public function setRel($value) {
-		if ($value != null) {
-			$value = 'rel="' . $value . '"';
-		}
-		$this->tag = str_replace(
-			'rel="' . $this->getRel() . '"',
-			$value,
-			$this->tag
-		);
-	}
-
-	public function __toString() {
-		return $this->tag;
+		return $text;
 	}
 
 }
@@ -75,6 +64,45 @@ class AnchorTagFinder {
 		} else {
 			return null;
 		}
+	}
+
+}
+
+class AnchorStartingTag {
+
+	private $tag;
+
+	public function __construct($tag) {
+		$this->tag = $tag;
+	}
+
+	public function getHref() {
+		if (preg_match('/href="([^"]*)"/', $this->tag, $result)) {
+			return $result[1];
+		}
+		return null;
+	}
+
+	public function getRel() {
+		if (preg_match('/rel="([^"]*)"/', $this->tag, $result)) {
+			return $result[1];
+		}
+		return null;
+	}
+
+	public function setRel($value) {
+		if ($value != null) {
+			$value = 'rel="' . $value . '"';
+		}
+		$this->tag = str_replace(
+			'rel="' . $this->getRel() . '"',
+			$value,
+			$this->tag
+		);
+	}
+
+	public function __toString() {
+		return $this->tag;
 	}
 
 }
