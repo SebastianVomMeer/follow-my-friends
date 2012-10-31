@@ -1,10 +1,39 @@
 <?php
-class ElementStartingTag {
+class AnchorStartingTag {
 
 	private $tag;
 
 	public function __construct($tag) {
-		// todo
+		$this->tag = $tag;
+	}
+
+	public function getHref() {
+		if (preg_match('/href="([^"]*)"/', $this->tag, $result)) {
+			return $result[1];
+		}
+		return null;
+	}
+
+	public function getRel() {
+		if (preg_match('/rel="([^"]*)"/', $this->tag, $result)) {
+			return $result[1];
+		}
+		return null;
+	}
+
+	public function setRel($value) {
+		if ($value != null) {
+			$value = 'rel="' . $value . '"';
+		}
+		$this->tag = str_replace(
+			'rel="' . $this->getRel() . '"',
+			$value,
+			$this->tag
+		);
+	}
+
+	public function __toString() {
+		return $this->tag;
 	}
 
 }
