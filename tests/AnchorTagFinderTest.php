@@ -40,9 +40,10 @@ class AnchorTagFinderTest extends PHPUnit_Framework_TestCase {
 			'\n\n\n<a href="foo">Foo bar</a> foo' => '<a href="foo">'
 		);
 		foreach ($tests as $text => $expectedResult) {
+			$tags = $this->finder->findTagsInText($text);
 			$this->assertEquals(
 				$expectedResult,
-				$this->finder->findFirstTagInText($text)
+				$tags[0]
 			);
 		}
 	}

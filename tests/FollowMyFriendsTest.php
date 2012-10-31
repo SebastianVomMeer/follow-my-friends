@@ -13,15 +13,12 @@ class FollowMyFriendsTest extends PHPUnit_Framework_TestCase {
 			'http://sgaul.de',
 			'http://picomol.de'
 		);
-		$this->testText = 'Lorem ipsum dolor sit <a href="http://w3c.org/foo/bar" rel="external nofollow">amet</a>,
-		consetetur sadipscing elitr, sed <a href="http://sgaul.de/foo/bar" rel="external nofollow">diam</a>
-		nonumy <a href="http://picomol.de/#foo?bar" rel="external nofollow">eirmod</a> tempor invidunt ut 
-		labore et <a href="http://w3c.org/foo/bar" rel="external nofollow">dolore</a> magna aliquyam erat, 
-		sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
+		$this->testText = 'Lorem <a href="http://w3c.org/foo/bar" rel="external nofollow">amet</a>, \n\rsed <a href="http://sgaul.de/foo/bar" rel="external nofollow">diam</a> nonumy <a href="http://picomol.de/#foo?bar" rel="external nofollow">eirmod</a> temporet <a href="http://w3c.org/foo/bar" rel="external nofollow">dolore</a> magna.';
 	}
 
-	public function testStartsWith() {
+	public function testRemoveNofollowFromFriendlyLinks() {
 		$text = $this->fmf->removeNofollowFromFriendlyLinks($this->testText);
+		// TODO replace manual test...
 		die($text);
 	}
 }

@@ -13,12 +13,13 @@ class FollowMyFriends {
 	}
 
 	public function removeNofollowFromFriendlyLinks($text) {
-		while ($tagString = $this->finder->findFirstTagInText($text)) {
+		$tagStrings = $this->finder->findTagsInText($text);
+		foreach ($tagStrings as $tagString) {
 			$tag = new AnchorStartingTag($tagString);
 			foreach ($this->friendlyUrls as $url) {
 				if (strpos($tag->getHref(), $url) === 0) {
-					$tag->setRef('external');
-					$text = str_replace($tagString, $tag->__toString, $text);
+					$tag->setRel('external');
+					$text = str_replace($tagString, $tag->__toString(), $text);
 				}
 			}
 		}
@@ -30,9 +31,10 @@ class FollowMyFriends {
 class AnchorTagFinder {
 
 	/**
-	 * Find first a tag, e.g. "<a href="">"
+	 * Find tags, e.g. "<a href="">"
 	 */
-	public function findFirstTagInText($text) {
+	public function findTagsInText($text) {
+		$tags = array();
 		$parts = explode('<', $text);
 		foreach ($parts as $i => $part) {
 			if ($i == 0) {
@@ -42,11 +44,11 @@ class AnchorTagFinder {
 				$tag = '<' . $part;
 				$tag = $this->extractBeginningTag($tag);
 				if ($tag !== null) {
-					return $tag;
+					$tags[] = $tag;
 				}
 			}
 		}
-		return null;
+		return $tags;
 	}
 
 	public function startsWith($haystack, $needle) {
