@@ -2,12 +2,12 @@
 require_once '/usr/share/php/PHPUnit/Framework/TestCase.php';
 require_once '../follow-my-friends.php';
 
-class AnchorTagFinderTest extends PHPUnit_Framework_TestCase {
+class FMF_AnchorTagFinderTest extends PHPUnit_Framework_TestCase {
 
 	private $finder;
 
 	public function setUp() {
-		$this->finder = new AnchorTagFinder();
+		$this->finder = new FMF_AnchorTagFinder();
 	}
 
 	public function testStartsWith() {

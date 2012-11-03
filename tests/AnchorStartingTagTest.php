@@ -2,7 +2,7 @@
 require_once '/usr/share/php/PHPUnit/Framework/TestCase.php';
 require_once '../follow-my-friends.php';
 
-class AnchorStartingTagTest extends PHPUnit_Framework_TestCase {
+class FMF_AnchorStartingTagTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetHref() {
 		$expectedHref = 'http://foo.bar#foo?foo=bar&foo=bar&amp;foo=bar';
@@ -23,7 +23,7 @@ class AnchorStartingTagTest extends PHPUnit_Framework_TestCase {
 	}
 
 	private function assertThatStringEqualsHref($expectedHrefString, $tagString) {
-		$tag = new AnchorStartingTag($tagString);
+		$tag = new FMF_AnchorStartingTag($tagString);
 		$this->assertEquals(
 			$expectedHrefString,
 			$tag->getHref()
@@ -45,22 +45,22 @@ class AnchorStartingTagTest extends PHPUnit_Framework_TestCase {
 	}
 
 	private function assertThatTagContainsRelValue($tagString, $expectedRelValue) {
-		$tag = new AnchorStartingTag($tagString);
+		$tag = new FMF_AnchorStartingTag($tagString);
 		$tag->setRel($expectedRelValue);
 		$this->assertTrue(
 			strpos($tag->__toString(), $expectedRelValue) !== false
 		);
-		$tag = new AnchorStartingTag($tag->__toString());
+		$tag = new FMF_AnchorStartingTag($tag->__toString());
 		$this->assertEquals($expectedRelValue, $tag->getRel());
 	}
 
 	private function assertThatTagDoesNotContainsRelAttribute($tagString) {
-		$tag = new AnchorStartingTag($tagString);
+		$tag = new FMF_AnchorStartingTag($tagString);
 		$tag->setRel(null);
 		$this->assertTrue(
 			strpos($tag->__toString(), 'rel="') === false
 		);
-		$tag = new AnchorStartingTag($tag->__toString());
+		$tag = new FMF_AnchorStartingTag($tag->__toString());
 		$this->assertNull($tag->getRel());
 	}
 }

@@ -9,13 +9,13 @@ class FollowMyFriends {
 	private $finder;
 
 	public function __construct() {
-		$this->finder = new AnchorTagFinder();
+		$this->finder = new FMF_AnchorTagFinder();
 	}
 
 	public function removeNofollowFromFriendlyLinks($text) {
 		$tagStrings = $this->finder->findTagsInText($text);
 		foreach ($tagStrings as $tagString) {
-			$tag = new AnchorStartingTag($tagString);
+			$tag = new FMF_AnchorStartingTag($tagString);
 			foreach ($this->friendlyUrls as $url) {
 				if (strpos($tag->getHref(), $url) === 0) {
 					$tag->setRel('external');
@@ -28,7 +28,7 @@ class FollowMyFriends {
 
 }
 
-class AnchorTagFinder {
+class FMF_AnchorTagFinder {
 
 	/**
 	 * Find tags, e.g. "<a href="">"
@@ -70,7 +70,7 @@ class AnchorTagFinder {
 
 }
 
-class AnchorStartingTag {
+class FMF_AnchorStartingTag {
 
 	private $tag;
 

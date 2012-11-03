@@ -19,6 +19,6 @@ class FollowMyFriendsTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveNofollowFromFriendlyLinks() {
 		$text = $this->fmf->removeNofollowFromFriendlyLinks($this->testText);
 		// TODO replace manual test...
-		die($text);
+		echo $text;
 	}
 }
